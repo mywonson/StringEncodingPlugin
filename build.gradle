@@ -1,0 +1,31 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id 'maven'
+}
+
+group 'com.wonson'
+version '1.0.0'
+publishing{
+    repositories {
+        maven {
+//            url = uri("C:/repo")
+            url = uri("https://jitpack.io")
+        }
+    }
+    publications{
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'org.ow2.asm:asm:5.0.3'
+}

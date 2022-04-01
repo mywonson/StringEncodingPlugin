@@ -1,5 +1,5 @@
-#StringEncodePlugin
-##使用方法
+# StringEncodePlugin
+## 使用方法
 note:仅适用于安卓项目
 1.打开项目根目录的`build.gradle` 在 `buildscript`中添加仓库及依赖
 ```groovy

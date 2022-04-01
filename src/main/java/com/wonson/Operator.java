@@ -36,8 +36,8 @@ public class Operator {
             FileInputStream fileInputStream = new FileInputStream(classFile);
             byte[] src = inputStreamToByteArray(fileInputStream);
             ClassReader classReader = new ClassReader(src);
-            ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-            ClassVisitor classVisitor = new ClassVisitor(Opcodes.ASM5,classWriter){
+            ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            ClassVisitor classVisitor = new ClassVisitor(ASM9,classWriter){
                 private String owner;
                 @Override
                 public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -52,7 +52,7 @@ public class Operator {
                 @Override
                 public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
                     MethodVisitor methodVisitor = super.visitMethod(access, name, desc, signature, exceptions);
-                    MethodVisitor myMethodVisitor = new MethodVisitor(Opcodes.ASM5, methodVisitor) {
+                    MethodVisitor myMethodVisitor = new MethodVisitor(ASM9, methodVisitor) {
                         @Override
                         public void visitLdcInsn(Object cst) {
                             if(cst != null && cst instanceof String){
@@ -70,7 +70,7 @@ public class Operator {
                     return myMethodVisitor;
                 }
             };
-            classReader.accept(classVisitor,ClassReader.EXPAND_FRAMES);
+            classReader.accept(classVisitor,ClassReader.SKIP_DEBUG);
             byte[] bytes = classWriter.toByteArray();
             FileOutputStream fileOutputStream = new FileOutputStream(classFile);
             fileOutputStream.write(bytes);
